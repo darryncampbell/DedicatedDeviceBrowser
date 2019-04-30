@@ -22,16 +22,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private WebView myWebView;
     // Observes restriction changes
     private BroadcastReceiver mBroadcastReceiver;
-    private static final String LOG_TAG = "DDBrowser";
-    private boolean shouldLoadPageOnLaunch = true;
-
-    private static final String key_start_page = "key_start_page";
-    private static final String key_lock_task_mode = "key_lock_task_mode";
-
-    //  Configurable items
-    private String startPage = "http://www.google.com";
-    private boolean startLockTaskMode = false;
-
+    private BrowserSettings browserSettings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +30,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fullscreen);
 
+        browserSettings = new BrowserSettings();
         mContentView = findViewById(R.id.webview);
         myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setWebViewClient(new CustomWebViewClient());
@@ -52,7 +44,7 @@ public class FullscreenActivity extends AppCompatActivity {
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                resolveRestrictions();
+                browserSettings.resolveRestrictions(getApplicationContext());
             }
         };
         registerReceiver(mBroadcastReceiver,
@@ -64,15 +56,16 @@ public class FullscreenActivity extends AppCompatActivity {
     {
         super.onResume();
         showAsFullScreen();
-        resolveRestrictions();
-        if (shouldLoadPageOnLaunch)
-            myWebView.loadUrl(startPage);
-        shouldLoadPageOnLaunch = false;
+        browserSettings.resolveRestrictions(this);
+        if (browserSettings.getShouldLoadPageOnLaunch())
+            myWebView.loadUrl(browserSettings.getStartPage());
+        browserSettings.setShouldLoadPageOnLaunch(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (startLockTaskMode)
+            if (browserSettings.getStartLockTaskMode())
                 startLockTask();
+            else
+                stopLockTask();
         }
-
     }
 
     @Override
@@ -97,52 +90,6 @@ public class FullscreenActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-    }
-
-    private void resolveRestrictions() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            RestrictionsManager manager =
-                    (RestrictionsManager) getSystemService(Context.RESTRICTIONS_SERVICE);
-            Bundle restrictions = null;
-            restrictions = manager.getApplicationRestrictions();
-            List<RestrictionEntry> entries = manager.getManifestRestrictions(
-                    getApplicationContext().getPackageName());
-            for (RestrictionEntry entry : entries) {
-                String key = entry.getKey();
-                Log.d(LOG_TAG, "key: " + key);
-                if (key.equals(key_start_page)) {
-                    if (restrictions != null && restrictions.containsKey(key_start_page))
-                    {
-                        String newStartPage = restrictions.getString(key_start_page);
-                        if (!(newStartPage.startsWith("http:") || newStartPage.startsWith("https:")))
-                            newStartPage = "http://" + newStartPage;
-                        if (URLUtil.isValidUrl(newStartPage))
-                        {
-                            if (!startPage.equals(newStartPage))
-                            {
-                                shouldLoadPageOnLaunch = true;
-                                startPage = newStartPage;
-                            }
-                        }
-                        else
-                        {
-                            Log.w(LOG_TAG, "Invalid URL specified as start page: " + newStartPage);
-                        }
-                    }
-                }
-                else if (key.equals(key_lock_task_mode))
-                {
-                    if (restrictions != null && restrictions.containsKey(key_lock_task_mode))
-                    {
-                        boolean lockTaskMode = restrictions.getBoolean(key_lock_task_mode);
-                        startLockTaskMode = lockTaskMode;
-                        if (!lockTaskMode)
-                            stopLockTask();
-                    }
-                }
-                //  todo other configuration items e.g. disable back button
-            }
-        }
     }
 
 }
