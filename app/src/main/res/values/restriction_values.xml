@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_start_page">Start Page</string>
+    <string name="description_start_page">Default start page for the browser</string>
+    <string name="default_start_page">http://www.google.co.uk</string>
+
+    <string name="title_lock_task_mode">Request to Start Lock Task Mode</string>
+    <string name="description_lock_task_mode">Whether or not the browser will request to start Lock Task Mode on launch.  The application must be whitelisted by the Device Owner otherwise the application will just be \'pinned\'</string>
+    <bool name="default_lock_task_mode">false</bool>
+
+</resources>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<restrictions xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <restriction
+        android:defaultValue="@string/default_start_page"
+        android:description="@string/description_start_page"
+        android:key="key_start_page"
+        android:restrictionType="string"
+        android:title="@string/title_start_page"/>
+
+    <restriction
+        android:defaultValue="@bool/default_lock_task_mode"
+        android:description="@string/description_lock_task_mode"
+        android:key="key_lock_task_mode"
+        android:restrictionType="bool"
+        android:title="@string/title_lock_task_mode"/>
+
+    <!--  SAMPLES
+
+    <restriction
+        android:defaultValue="@bool/default_can_say_hello"
+        android:description="@string/description_can_say_hello"
+        android:key="can_say_hello"
+        android:restrictionType="bool"
+        android:title="@string/title_can_say_hello"/>
+
+
+    <restriction
+        android:defaultValue="@string/default_message"
+        android:description="@string/description_message"
+        android:key="message"
+        android:restrictionType="string"
+        android:title="@string/title_message"/>
+
+
+    <restriction
+        android:defaultValue="@integer/default_number"
+        android:description="@string/description_number"
+        android:key="number"
+        android:restrictionType="integer"
+        android:title="@string/title_number"/>
+
+
+    <restriction
+        android:defaultValue="@string/default_rank"
+        android:description="@string/description_rank"
+        android:entries="@array/entries_rank"
+        android:entryValues="@array/entry_values_rank"
+        android:key="rank"
+        android:restrictionType="choice"
+        android:title="@string/title_rank"/>
+
+
+    <restriction
+        android:defaultValue="@array/default_approvals"
+        android:description="@string/description_approvals"
+        android:entries="@array/entries_approvals"
+        android:entryValues="@array/entry_values_approvals"
+        android:key="approvals"
+        android:restrictionType="multi-select"
+        android:title="@string/title_approvals"/>
+
+
+    <restriction
+        android:defaultValue="@string/default_secret_code"
+        android:description="@string/description_secret_code"
+        android:key="secret_code"
+        android:restrictionType="hidden"
+        android:title="@string/title_secret_code"/>
+
+
+    <restriction
+        android:description="@string/description_items"
+        android:key="items"
+        android:restrictionType="bundle_array"
+        android:title="@string/title_items">
+
+        <restriction
+            android:key="item"
+            android:restrictionType="bundle"
+            android:title="@string/title_item">
+            <restriction
+                android:key="key"
+                android:restrictionType="string"
+                android:title="@string/title_key"/>
+            <restriction
+                android:key="value"
+                android:restrictionType="string"
+                android:title="@string/title_value"/>
+        </restriction>
+    </restriction>
+    -->
+</restrictions>
+
