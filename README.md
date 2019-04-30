@@ -7,11 +7,11 @@ Locked down browser for dedicated devices based on Chrome webview
 The Dedicated Device Browser can be configured in a few ways:
 
 - (Recommended) Android Managed Configurations, controlled by a Device Owner (EMM) on the device.
-- (not implemented) By copying a .json file to the device mass storage
+- By copying a .json file to the device mass storage Documents folder.  /[public external storage]/Documents/dedicated_browser_configuration.json
 
 ### Available configuration
 - StartPage
-- (not implemented) EnableFileBasedConfiguration (load from json file)
+- EnableFileBasedConfiguration (load from json file)
 - LockTaskMode (Marshmallow and higher)
 
 ## Locking down the device

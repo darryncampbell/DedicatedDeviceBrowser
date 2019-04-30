@@ -4,14 +4,14 @@
     <restriction
         android:defaultValue="@string/default_start_page"
         android:description="@string/description_start_page"
-        android:key="key_start_page"
+        android:key="start_page"
         android:restrictionType="string"
         android:title="@string/title_start_page"/>
 
     <restriction
         android:defaultValue="@bool/default_lock_task_mode"
         android:description="@string/description_lock_task_mode"
-        android:key="key_lock_task_mode"
+        android:key="lock_task_mode"
         android:restrictionType="bool"
         android:title="@string/title_lock_task_mode"/>
 

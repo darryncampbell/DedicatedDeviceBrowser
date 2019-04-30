@@ -1,12 +1,15 @@
 package com.darryncampbell.dedicateddevicebrowser;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.RestrictionEntry;
 import android.content.RestrictionsManager;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +37,12 @@ public class FullscreenActivity extends AppCompatActivity {
         mContentView = findViewById(R.id.webview);
         myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setWebViewClient(new CustomWebViewClient());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            }
+        }
     }
 
     @Override
@@ -57,6 +66,14 @@ public class FullscreenActivity extends AppCompatActivity {
         super.onResume();
         showAsFullScreen();
         browserSettings.resolveRestrictions(this);
+        //  File based settings
+        if (browserSettings.fileBasedConfigurationAllowed() && browserSettings.configurationFileExists())
+        {
+            //  Load file based configuration
+            browserSettings.loadFileBasedConfiguration(this);
+        }
+        //  End file based settings
+
         if (browserSettings.getShouldLoadPageOnLaunch())
             myWebView.loadUrl(browserSettings.getStartPage());
         browserSettings.setShouldLoadPageOnLaunch(false);
