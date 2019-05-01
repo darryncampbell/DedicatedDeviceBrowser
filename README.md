@@ -34,3 +34,22 @@ This application is designed to show the bare-bones to getting started with a br
 
 ## Screenshots
 
+![BBC.co.uk](https://raw.githubusercontent.com/darryncampbell/DedicatedDeviceBrowser/master/screenshots/bbc.jpg)
+
+www.bbc.co.uk shown in the browser
+
+![Google.co.uk](https://raw.githubusercontent.com/darryncampbell/DedicatedDeviceBrowser/master/screenshots/google.jpg)
+
+www.google.co.uk shown in the browser
+
+![Test DPC](https://raw.githubusercontent.com/darryncampbell/DedicatedDeviceBrowser/master/screenshots/testdpc.jpg)
+
+Available managed configuration options as displayed through [TestDPC](https://github.com/googlesamples/android-testdpc)
+
+## Videos
+
+[![Specifying the Start page](http://img.youtube.com/vi/lcIIVZ4P2uo/0.jpg)](https://youtu.be/lcIIVZ4P2uo) 
+Specifying a custom start page
+
+[![Specifying the Start page](http://img.youtube.com/vi/aqKmxKxvEQg/0.jpg)](https://youtu.be/aqKmxKxvEQg) 
+Enabling lock task mode to prevent user access to the OS
