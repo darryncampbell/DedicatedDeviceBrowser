@@ -49,7 +49,9 @@ Available managed configuration options as displayed through [TestDPC](https://g
 ## Videos
 
 [![Specifying the Start page](http://img.youtube.com/vi/lcIIVZ4P2uo/0.jpg)](https://youtu.be/lcIIVZ4P2uo) 
+
 Specifying a custom start page
 
 [![Specifying the Start page](http://img.youtube.com/vi/aqKmxKxvEQg/0.jpg)](https://youtu.be/aqKmxKxvEQg) 
+
 Enabling lock task mode to prevent user access to the OS
