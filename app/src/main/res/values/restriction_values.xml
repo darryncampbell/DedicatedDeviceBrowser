@@ -8,4 +8,12 @@
     <string name="description_lock_task_mode">Whether or not the browser will request to start Lock Task Mode on launch.  The application must be whitelisted by the Device Owner otherwise the application will just be \'pinned\'</string>
     <bool name="default_lock_task_mode">false</bool>
 
+    <string name="title_file_based_configuration">Allow File-Based Configuration through json</string>
+    <string name="description_file_based_configuration">Whether or not copying dedicated_browser_configuration.json to the Documents folder will have any effect on the configuration</string>
+    <bool name="default_file_based_configuration">false</bool>
+
+    <string name="title_ignore_ssl_errors">Ignore any SSL Errors</string>
+    <string name="description_ignore_ssl_errors">Will ignore any SSL errors raised by the connection (do not use in production)</string>
+    <bool name="default_ignore_ssl_errors">false</bool>
+
 </resources>

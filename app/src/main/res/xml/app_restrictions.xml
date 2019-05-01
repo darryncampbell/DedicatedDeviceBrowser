@@ -15,6 +15,20 @@
         android:restrictionType="bool"
         android:title="@string/title_lock_task_mode"/>
 
+    <restriction
+        android:defaultValue="@bool/default_file_based_configuration"
+        android:description="@string/description_file_based_configuration"
+        android:key="file_based_configuration"
+        android:restrictionType="bool"
+        android:title="@string/title_file_based_configuration"/>
+
+    <restriction
+        android:defaultValue="@bool/default_ignore_ssl_errors"
+        android:description="@string/description_ignore_ssl_errors"
+        android:key="ignore_ssl_errors"
+        android:restrictionType="bool"
+        android:title="@string/title_ignore_ssl_errors"/>
+
     <!--  SAMPLES
 
     <restriction

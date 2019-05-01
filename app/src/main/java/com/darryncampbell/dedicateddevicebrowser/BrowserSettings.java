@@ -25,14 +25,20 @@ public class BrowserSettings {
 
     private static final String LOG_TAG = "DDBrowser";
     private boolean shouldLoadPageOnLaunch = true;
+    private boolean isFileBasedConfigurationAllowed = false;
 
+    //  Available configuration keys (these need to match the keys in app_restrictions.xml and used in the .json file)
     private static final String key_start_page = "start_page";
     private static final String key_lock_task_mode = "lock_task_mode";
+    private static final String key_ignore_ssl_errors = "ignore_ssl_errors";
+    private static final String key_file_based_configuration = "file_based_configuration";
 
     //  Configurable items
     private String startPage = "http://www.google.com";
     private boolean startLockTaskMode = false;
+    private boolean shouldIgnoreSSLErrors = false;
 
+    //  Handle Managed Configurations
     public void resolveRestrictions(Context context) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             RestrictionsManager manager =
@@ -55,44 +61,29 @@ public class BrowserSettings {
                 {
                     if (restrictions != null && restrictions.containsKey(key_lock_task_mode))
                     {
-                        boolean lockTaskMode = restrictions.getBoolean(key_lock_task_mode);
-                        startLockTaskMode = lockTaskMode;
+                        startLockTaskMode = restrictions.getBoolean(key_lock_task_mode);
                     }
                 }
-                //  todo other configuration items from managed configuration e.g. disable back button
+                else if (key.equals(key_file_based_configuration))
+                {
+                    if (restrictions != null && restrictions.containsKey(key_file_based_configuration))
+                    {
+                        isFileBasedConfigurationAllowed = restrictions.getBoolean(key_file_based_configuration);
+                    }
+                }
+                else if (key.equals(key_ignore_ssl_errors))
+                {
+                    if (restrictions != null && restrictions.containsKey(key_ignore_ssl_errors))
+                    {
+                        shouldIgnoreSSLErrors = restrictions.getBoolean(key_ignore_ssl_errors);
+                    }
+                }
+                //  todo add other configuration items from managed configurations
             }
         }
     }
 
-    public void ProcessStartPage(String newStartPage)
-    {
-        if (!(newStartPage.startsWith("http:") || newStartPage.startsWith("https:")))
-            newStartPage = "http://" + newStartPage;
-        if (URLUtil.isValidUrl(newStartPage))
-        {
-            if (!startPage.equals(newStartPage))
-            {
-                shouldLoadPageOnLaunch = true;
-                startPage = newStartPage;
-            }
-        }
-        else
-        {
-            Log.w(LOG_TAG, "Invalid URL specified as start page: " + newStartPage);
-        }
-
-    }
-
-    public boolean configurationFileExists()
-    {
-        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        File configurationFile = new File(path, "dedicated_browser_configuration.json");
-        if (configurationFile.exists())
-            return true;
-        else
-            return false;
-    }
-
+    //  File-based configuration from dedicated_browser_configuration.json file on the device public Documents folder
     public void loadFileBasedConfiguration(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -129,8 +120,11 @@ public class BrowserSettings {
             }
             if (obj.has(key_lock_task_mode))
             {
-                boolean lockTaskMode = obj.getBoolean(key_lock_task_mode);
-                startLockTaskMode = lockTaskMode;
+                startLockTaskMode = obj.getBoolean(key_lock_task_mode);
+            }
+            if (obj.has(key_ignore_ssl_errors))
+            {
+                shouldIgnoreSSLErrors = obj.getBoolean(key_ignore_ssl_errors);
             }
             //  todo process any more file-based configuration options
         } catch (JSONException e) {
@@ -138,7 +132,36 @@ public class BrowserSettings {
         }
     }
 
+    public void ProcessStartPage(String newStartPage)
+    {
+        if (!(newStartPage.startsWith("http:") || newStartPage.startsWith("https:")))
+            newStartPage = "http://" + newStartPage;
+        if (URLUtil.isValidUrl(newStartPage))
+        {
+            if (!startPage.equals(newStartPage))
+            {
+                shouldLoadPageOnLaunch = true;
+                startPage = newStartPage;
+            }
+        }
+        else
+        {
+            Log.w(LOG_TAG, "Invalid URL specified as start page: " + newStartPage);
+        }
 
+    }
+
+    public boolean configurationFileExists()
+    {
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File configurationFile = new File(path, "dedicated_browser_configuration.json");
+        if (configurationFile.exists())
+            return true;
+        else
+            return false;
+    }
+
+    //  Accessors for the configurable items
     public String getStartPage() {
         return startPage;
     }
@@ -156,8 +179,10 @@ public class BrowserSettings {
     }
 
     public boolean fileBasedConfigurationAllowed() {
-        //  todo
-        return true;
+        return isFileBasedConfigurationAllowed;
     }
 
+    public boolean getShouldIgnoreSSLErrors() {
+        return shouldIgnoreSSLErrors;
+    }
 }

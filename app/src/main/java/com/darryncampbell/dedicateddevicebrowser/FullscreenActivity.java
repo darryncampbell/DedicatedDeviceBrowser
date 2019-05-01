@@ -23,6 +23,7 @@ import java.util.List;
 public class FullscreenActivity extends AppCompatActivity {
     private View mContentView;
     private WebView myWebView;
+    private CustomWebViewClient customWebViewClient;
     // Observes restriction changes
     private BroadcastReceiver mBroadcastReceiver;
     private BrowserSettings browserSettings = null;
@@ -36,7 +37,8 @@ public class FullscreenActivity extends AppCompatActivity {
         browserSettings = new BrowserSettings();
         mContentView = findViewById(R.id.webview);
         myWebView = (WebView) findViewById(R.id.webview);
-        myWebView.setWebViewClient(new CustomWebViewClient());
+        customWebViewClient = new CustomWebViewClient();
+        myWebView.setWebViewClient(customWebViewClient);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -74,15 +76,19 @@ public class FullscreenActivity extends AppCompatActivity {
         }
         //  End file based settings
 
+        //  Apply any settings which have changed since the last launch
+        customWebViewClient.setIgnoreSSLErrors(browserSettings.getShouldIgnoreSSLErrors());
         if (browserSettings.getShouldLoadPageOnLaunch())
             myWebView.loadUrl(browserSettings.getStartPage());
         browserSettings.setShouldLoadPageOnLaunch(false);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (browserSettings.getStartLockTaskMode())
                 startLockTask();
             else
                 stopLockTask();
         }
+        //  End apply any settings which have changed since the last launch
     }
 
     @Override

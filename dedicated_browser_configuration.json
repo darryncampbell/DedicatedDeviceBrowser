@@ -1,4 +1,5 @@
 {
     "start_page": "http://www.bbc.co.uk",
-    "lock_task_mode": false
+    "lock_task_mode": false,
+    "ignore_ssl_errors": false
 }
