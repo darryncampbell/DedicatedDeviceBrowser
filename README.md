@@ -1,5 +1,6 @@
-*This application is provided without guarantee or warranty*
+*Please be aware that this application / sample is provided as-is for demonstration purposes without any guarantee of support*
 =========================================================
+
 # Dedicated Device Browser
 A very simple locked down browser for dedicated devices based on Chrome webview.  This browser will not expose a URL bar or any other controls to the user.  Browser configuration is handled by a device administrator, either by using Managed Configurations [AKA application restrictions] (recommended) or by copying a json file to the device.
 
